@@ -18,7 +18,6 @@ import chalk from 'chalk';
 import _concat from 'lodash/concat';
 
 import createHistory from 'history/createMemoryHistory';
-import getIntialState from './store/getInitialState';
 import configureStore from './store';
 import renderHtml from './utils/renderHtml';
 import routes from './routes';
@@ -71,8 +70,7 @@ if (!__DEV__) {
 app.get('*', (req, res) => {
   const history = createHistory();
 
-  const initialState = getIntialState(req.cookies);
-  const store = configureStore(history, initialState);
+  const store = configureStore(history, {});
 
   // Here's the method for loading data from server-side
   const loadBranchData = () => {
