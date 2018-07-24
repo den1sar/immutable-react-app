@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-import localization from './localization';
+import images from './images';
 
 const rootReducer = combineReducers({
   routing: routerReducer,
-  localization,
+  images,
 });
 
 export default rootReducer;

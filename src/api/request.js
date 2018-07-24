@@ -1,42 +1,21 @@
 import axios from 'axios';
+import queryString from 'query-string';
 import config from '_config';
 
-const BASE_URL = '/api';
-const STUB_DELAY = 1000;
-const METHODS = ['GET', 'DELETE', 'HEAD', 'POST', 'PUT', 'PATCH'];
+const URL = config.api;
 
-const sidedRequest = (opts) => {
-  if (!__SERVER__) {
-    return axios({ baseURL: BASE_URL, ...opts });
-  }
+const universalRequest = (url, params, method) => {
+  const newUrl = `${URL}${url}`;
+  const requestUrl = method === 'post' ? newUrl : `${newUrl}?${queryString.stringify(params)}`;
 
-  return axios({ baseURL: config.remoteApiUrl, ...opts });
+  return axios({
+    method,
+    url: requestUrl,
+    data: params,
+  }).catch(error => (error.response.data));
 };
 
-export const externalRequest = (externalUrl, opts) =>
-  axios({ url: externalUrl, ...opts });
+const requestFn = method => (url, params = {}) => universalRequest(url, params, method);
 
-const stubRequest = (opts) => {
-  const { stubData, stubDelay = STUB_DELAY } = opts;
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ data: stubData });
-    }, stubDelay);
-  });
-};
-
-const doRequest = (opts) => {
-  if (opts.stubData) {
-    return stubRequest(opts);
-  }
-
-  return sidedRequest(opts);
-};
-
-const request = METHODS.reduce((req, method) => {
-  req[method] = opts => doRequest({ ...opts, method });
-  return req;
-}, {});
-
-export default request;
+export const getRequest = requestFn('get');
+export const postRequest = requestFn('post');

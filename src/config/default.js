@@ -1,6 +1,7 @@
 module.exports = {
   port: process.env.PORT,
   defaultLocale: 'en',
+  api: 'https://api.giphy.com/',
   app: {
     htmlAttributes: { lang: 'en' },
     title: 'React Starter Boilerplate',
