@@ -1,16 +1,19 @@
 import axios from 'axios';
-import queryString from 'query-string';
 import config from '_config';
 
 const URL = config.api;
 
 const universalRequest = (url, params, method) => {
   const newUrl = `${URL}${url}`;
-  const requestUrl = method === 'post' ? newUrl : `${newUrl}?${queryString.stringify(params)}`;
+
+  const headers = {
+    'Content-Type': 'application/json',
+  };
 
   return axios({
     method,
-    url: requestUrl,
+    headers,
+    url: newUrl,
     data: params,
   }).catch(error => (error.response.data));
 };

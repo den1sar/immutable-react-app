@@ -1,11 +1,11 @@
 import { fromJS } from 'immutable';
 import { ADD_IMAGE } from '_constants';
 
-const intialState = fromJS({
+const initialState = fromJS({
   imageUrl: '',
 });
 
-const images = (state = intialState, action) => {
+export default (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -16,5 +16,3 @@ const images = (state = intialState, action) => {
       return state;
   }
 };
-
-export default images;

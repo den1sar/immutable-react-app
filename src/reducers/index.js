@@ -1,10 +1,10 @@
-import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import { combineReducers } from 'redux-immutable';
 
+import routing from './router';
 import images from './images';
 
 const rootReducer = combineReducers({
-  routing: routerReducer,
+  routing,
   images,
 });
 

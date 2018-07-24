@@ -12,9 +12,7 @@ import rootSaga from '_sagas';
 import configureStore from '_store';
 
 // Get initial state from server-side rendering
-const initialState = fromJS({
-  ...window.__INITIAL_STATE__,
-});
+const initialState = fromJS(window.__INITIAL_STATE__);
 
 const history = createHistory();
 const store = configureStore(history, initialState);

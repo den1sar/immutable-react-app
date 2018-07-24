@@ -23,6 +23,7 @@ import renderHtml from './utils/renderHtml';
 import routes from './routes';
 import assets from '../public/webpack-assets';
 import { port } from './config';
+import { fromJS } from 'immutable';
 
 const app = express();
 
@@ -70,14 +71,14 @@ if (!__DEV__) {
 app.get('*', (req, res) => {
   const history = createHistory();
 
-  const store = configureStore(history, {});
+  const store = configureStore(history, fromJS({}));
 
   // Here's the method for loading data from server-side
   const loadBranchData = () => {
     const branch = matchRoutes(routes, req.path);
     const sagasToRun = branch.reduce((sagas, routeInfo) => {
       const { route, match } = routeInfo;
-      if (route.sagasToRun) {
+      if (match && route.sagasToRun) {
         return _concat(sagas, route.sagasToRun);
       }
 
